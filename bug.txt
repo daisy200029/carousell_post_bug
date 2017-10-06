@@ -1,27 +1,27 @@
 @des
 [Environment]
-Testing in chrome through URL: http://10.219.119.29:3000/login
+Testing in chrome through URL:
 
 @summary
 [regression] unable to click the button
 
 @assignee
-dliu
+daisy.liu
 
 @photos
 TEST1.PNG,TEST2.PNG
 
 @des
 [Environment]
-Testing in chrome through URL: http://10.219.119.29:3000/login
+Testing in chrome through URL: 
 
 @summary
 [regression] unable to click the button
 
 @assignee
-dliu
+daisy.liu
 
 @photos
-TEST4.PNG,TEST233.PNG,TEST2342.PNG
+TEST1.PNG,TEST3.PNG
 
 !exit

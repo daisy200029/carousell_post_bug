@@ -6,7 +6,7 @@ import os
 
 
 class photo_merge():
-	def __init__(self,file_path=os.path.join(os.environ["HOME"], "Desktop/"),photoNames=[],output='out.png'):
+	def __init__(self,file_path=os.path.join(os.environ["HOME"], "Desktop/"),photoNames=[],output='OUT.PNG'):
 		self.photoNames=photoNames
 		self.file_path=file_path
 		self.output=output
@@ -27,9 +27,23 @@ class photo_merge():
 		for im in images:
 			new_im.paste(im, (x_offset,0))
 			x_offset += im.size[0]
-		new_im.save(self.file_path+self.output)
+		
+		# outputfile=self.file_path+self.output
+		
+		if (os.path.isfile(self.file_path+self.output)):
+			number=1;
+			name,filetype=self.output.split('.')
+			while (os.path.isfile(self.file_path+'-'+str(number)+'.'+filetype)):
+				number=number+1
+			self.final_photo=self.file_path+name+'-'+str(number)+'.'+filetype
+			new_im.save(self.final_photo)
+			print "success get new naming merged photo"+self.final_photo
+		else:
+			self.final_photo=outputfile
+			new_im.save(self.final_photo)
+			print "success get merged photo"+self.final_photo
 
 
 
 if __name__ == "__main__":
-	photo1=photo_merge(photoNames=[])
+	photo_merge(photoNames=['TEST1.PNG','TEST2.PNG'])

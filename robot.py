@@ -17,7 +17,9 @@ import requests
 import json
 import cmd
 # import verifycode
-import jira_routine
+from jira_routine import jira_routine
+from bug_parser  import bug_parser
+from photo_merge  import photo_merge
 
 
 # Created by Jerry
@@ -155,19 +157,28 @@ class CarousellTestShell(cmd.Cmd):
         jsonstr = self.__post(self.offer_endpoint, data)
         print jsonstr
 
-    def do_create_bug(self,args)
+    def do_create_bug(self,args):
         jira_user,  jira_password , text_bug_file = args.split()
+        # jira authentication
         try:
             routine=jira_routine(jira_user,jira_password)
         except:
             print 'try example: create_bug  daisy.liu  <<your jira password>>'
-        
-        parser=bug_parser(text_bug_file)    
-        bug_tickets=routine.create_bug(assignee=parser.bug_assignee, summary=parser.bug_summary, description=parser.bugdes)
+        #parse bug text file
+        parser=bug_parser("bug.txt")    
+        # #create bug ticket
+        # bug_tickets=routine.create_bug(assignee=parser.bug_assignee, \
+        #     summary=parser.bug_summary, description=parser.bug_des)
+        # print bug_tickets
+        # #attach merged picture to bug ticket
+        bug_tickets=['CS-355','CS-356']
+        bug_photos=[['TEST1.PNG','TEST2.PNG'],['TEST3.PNG','TEST1.PNG'],[]]
+        print len(bug_tickets)
         for i in range (0,len(bug_tickets)):
-            if parser.bug_photo[i] is not null:
-                complete_photo =photo_merge(parser.bug_photo[i])
-                routine.add_attachment(bug_tickets[i],complete_photo)
+            if bug_photos[i]:
+                print "here"
+                photo_merge1 =photo_merge(photoNames=bug_photos[i])
+                routine.add_attachment(bug_tickets[i],photo_merge1.final_photo)
 
 
     # private method

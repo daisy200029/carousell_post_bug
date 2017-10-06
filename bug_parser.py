@@ -80,13 +80,9 @@ class bug_parser:
 if __name__ == "__main__":
 
 		# file_path=os.path.join(
-  #           os.path.dirname(os.path.abspath(__file__)), 'uploads', 'bug.txt')
+        # os.path.dirname(os.path.abspath(__file__)), 'uploads', 'bug.txt')
 		parser1=bug_parser('bug.txt')
 		
-		# except Exception as e:
-			# print "fail parse"
-			# routine1.create_bug(parser1.bug_assignee, parser1.bug_summary,parser1.bug_des,routine1.web_portal_sprint_id, routine1.webportal_project_version, routine1.webportal_project_component)
-
 
 
 
