@@ -2,9 +2,6 @@ import sys
 from PIL import Image
 import os
 
-
-
-
 class photo_merge():
 	def __init__(self,file_path=os.path.join(os.environ["HOME"], "Desktop/"),photoNames=[],output='OUT.PNG'):
 		self.photoNames=photoNames
@@ -12,6 +9,7 @@ class photo_merge():
 		self.output=output
 		self.create_path_names()
 		self.merge_photo()
+		self.check_file_exist()
 
 	def create_path_names(self):
 		print self.photoNames
@@ -27,23 +25,22 @@ class photo_merge():
 		for im in images:
 			new_im.paste(im, (x_offset,0))
 			x_offset += im.size[0]
-		
-		# outputfile=self.file_path+self.output
-		
-		if (os.path.isfile(self.file_path+self.output)):
+		self.new_im=new_im
+
+	def check_file_exist(self):	
+		outputfile=self.file_path+self.output
+		if (os.path.isfile(outputfile)):
 			number=1;
 			name,filetype=self.output.split('.')
 			while (os.path.isfile(self.file_path+'-'+str(number)+'.'+filetype)):
 				number=number+1
 			self.final_photo=self.file_path+name+'-'+str(number)+'.'+filetype
-			new_im.save(self.final_photo)
+			self.new_im.save(self.final_photo)
 			print "success get new naming merged photo"+self.final_photo
 		else:
 			self.final_photo=outputfile
-			new_im.save(self.final_photo)
+			self.new_im.save(self.final_photo)
 			print "success get merged photo"+self.final_photo
-
-
 
 if __name__ == "__main__":
 	photo_merge(photoNames=['TEST1.PNG','TEST2.PNG'])

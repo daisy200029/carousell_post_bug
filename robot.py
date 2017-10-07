@@ -163,21 +163,16 @@ class CarousellTestShell(cmd.Cmd):
         try:
             routine=jira_routine(jira_user,jira_password)
         except:
-            print 'try example: create_bug  daisy.liu  <<your jira password>>'
+            print 'try example: create_bug daisy.liu 27556285* bug.txt'
         #parse bug text file
         parser=bug_parser("bug.txt")    
-        # #create bug ticket
-        # bug_tickets=routine.create_bug(assignee=parser.bug_assignee, \
-        #     summary=parser.bug_summary, description=parser.bug_des)
-        # print bug_tickets
-        # #attach merged picture to bug ticket
-        bug_tickets=['CS-355','CS-356']
-        bug_photos=[['TEST1.PNG','TEST2.PNG'],['TEST3.PNG','TEST1.PNG'],[]]
-        print len(bug_tickets)
+        #create bug ticket
+        bug_tickets=routine.create_bug(assignee=parser.bug_assignee, \
+            summary=parser.bug_summary, description=parser`.bug_des)
+        print bug_tickets
         for i in range (0,len(bug_tickets)):
-            if bug_photos[i]:
-                print "here"
-                photo_merge1 =photo_merge(photoNames=bug_photos[i])
+            if parser.bug_photos[i][0]!='NULL':
+                photo_merge1 =photo_merge(photoNames=parser.bug_photos[i])
                 routine.add_attachment(bug_tickets[i],photo_merge1.final_photo)
 
 

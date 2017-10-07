@@ -5,8 +5,8 @@ setup(
     name = "Jira Basic Tool",
     author = "Daisy Liu",
     author_email = "daisy.liu@thecarousell.com",
-    description = ("An demonstration of how to create bug with Jira python library"),
+    description = ("An tool to create serveral bug ticket attaching multiple photos merged"),
     install_requires=[
-          'JIRA','requests'
+          'JIRA','requests','Image'
       ]
 )
