@@ -158,22 +158,33 @@ class CarousellTestShell(cmd.Cmd):
         print jsonstr
 
     def do_create_bug(self,args):
-        jira_user,  jira_password , text_bug_file = args.split()
-        # jira authentication
         try:
-            routine=jira_routine(jira_user,jira_password)
+            jira_user,  jira_password , text_bug_file = args.split()
+            try:
+                routine=jira_routine(jira_user,jira_password)
+                try:
+                    parser=bug_parser("bug.txt")   
+                    bug_tickets=routine.create_bug(assignee=parser.bug_assignee, \
+                    summary=parser.bug_summary, description=parser.bug_des)
+                    print bug_tickets
+                    try:
+                        for i in range (0,len(bug_tickets)):
+                            if parser.bug_photos[i][0]!='NULL':
+                                photo_merge1 =photo_merge(photoNames=parser.bug_photos[i])
+                                routine.add_attachment(bug_tickets[i],photo_merge1.final_photo)
+                    except:
+                        print 'unable merege photo'
+                except:
+                    print 'unanble create bug because wrong bug format'
+                
+            except:
+                print 'Authorization fail, please check jira profile to see or reset on-demand password'
+            
         except:
             print 'try example: create_bug daisy.liu 27556285* bug.txt'
-        #parse bug text file
-        parser=bug_parser("bug.txt")    
-        #create bug ticket
-        bug_tickets=routine.create_bug(assignee=parser.bug_assignee, \
-            summary=parser.bug_summary, description=parser`.bug_des)
-        print bug_tickets
-        for i in range (0,len(bug_tickets)):
-            if parser.bug_photos[i][0]!='NULL':
-                photo_merge1 =photo_merge(photoNames=parser.bug_photos[i])
-                routine.add_attachment(bug_tickets[i],photo_merge1.final_photo)
+         
+        
+        
 
 
     # private method
