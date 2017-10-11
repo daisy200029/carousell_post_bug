@@ -18,7 +18,7 @@ import json
 import cmd
 # import verifycode
 from jira_routine import jira_routine
-from bug_parser  import bug_parser
+from parser  import parser
 from photo_merge  import photo_merge
 
 
@@ -158,19 +158,25 @@ class CarousellTestShell(cmd.Cmd):
         print jsonstr
 
     def do_create_bug(self,args):
+        # jira_user,  jira_password , text_bug_file = args.split()
+        # routine=jira_routine(jira_user,jira_password)
+        # bug_parser=parser(text_bug_file)   
+        # bug_tickets=routine.create_bug(assignee=bug_parser.parser_assignee, \
+        #             summary=bug_parser.parser_summary, description=bug_parser.parser_des)
+        # print bug_tickets
         try:
             jira_user,  jira_password , text_bug_file = args.split()
             try:
                 routine=jira_routine(jira_user,jira_password)
                 try:
-                    parser=bug_parser("bug.txt")   
-                    bug_tickets=routine.create_bug(assignee=parser.bug_assignee, \
-                    summary=parser.bug_summary, description=parser.bug_des)
+                    bug_parser=parser(text_bug_file)   
+                    bug_tickets=routine.create_bug(assignee=bug_parser.parser_assignee, \
+                    summary=bug_parser.parser_summary, description=bug_parser.parser_des)
                     print bug_tickets
                     try:
                         for i in range (0,len(bug_tickets)):
-                            if parser.bug_photos[i][0]!='NULL':
-                                photo_merge1 =photo_merge(photoNames=parser.bug_photos[i])
+                            if bug_parser.parser_photos[i][0]!='NULL':
+                                photo_merge1 =photo_merge(photoNames=bug_parser.parser_photos[i])
                                 routine.add_attachment(bug_tickets[i],photo_merge1.final_photo)
                     except:
                         print 'unable merege photo'
@@ -183,8 +189,25 @@ class CarousellTestShell(cmd.Cmd):
         except:
             print 'try example: create_bug daisy.liu 27556285* bug.txt'
          
-        
-        
+
+    def do_create_story(self,args):
+        try:
+            jira_user,  jira_password , text_story_file = args.split()
+            try:
+                routine=jira_routine(jira_user,jira_password)
+                try:
+                    story_parser=parser(text_story_file)   
+                    story_tickets=routine.create_story(assignee=story_parser.parser_assignee, \
+                    summary=story_parser.parser_summary, description=story_parser.parser_des)
+                    print story_tickets
+                    routine.add_issues_to_sprint(sprint_id=routine.get_cs_active_sprint_id() \
+                        ,list_tickets=story_tickets)
+                except:
+                    print 'unanble create ticket because wrong ticket format'              
+            except:
+                print 'Authorization fail, please check jira profile to see or reset on-demand password'
+        except:
+            print 'try example: create_story daisy.liu 27556285* story.txt'       
 
 
     # private method

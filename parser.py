@@ -3,12 +3,12 @@ import logging
 import os
 import photo_merge
 
-class bug_parser:
+class parser:
 		def __init__(self, file_path):
-			self.bug_des=[]
-			self.bug_summary=[]
-			self.bug_assignee=[]
-			self.bug_photos=[]  #[[A,B,C],[D,E,F]]
+			self.parser_des=[]
+			self.parser_summary=[]
+			self.parser_assignee=[]
+			self.parser_photos=[]  #[[A,B,C],[D,E,F]]
 			self.flag=-1
 			self.des=""
 			self.summary=""
@@ -16,13 +16,13 @@ class bug_parser:
 			self.photos=[]
 			self.parse_file(file_path)
 
-			print  self.bug_des
-			print  self.bug_summary
-			print  self.bug_assignee
-			print  self.bug_photos
+			print  self.parser_des
+			print  self.parser_summary
+			print  self.parser_assignee
+			print  self.parser_photos
 
  
-		def  check_bug_key(self, line):
+		def  check_parser_key(self, line):
 			if self.flag == 1:
 				line=line+"\n"
 				self.des+=line
@@ -38,16 +38,16 @@ class bug_parser:
 
 		def  check_content_exist(self):		
 			if  self.des != "":
-				self.bug_des.append(self.des)
+				self.parser_des.append(self.des)
 				self.des = ""
 			if self.summary != "":
-				self.bug_summary.append(self.summary)
+				self.parser_summary.append(self.summary)
 				self.summary = ""
 			if self.assignee != "":
-				self.bug_assignee.append(self.assignee)
+				self.parser_assignee.append(self.assignee)
 				self.assignee=""
 			if  self.photos :
-				self.bug_photos.append(self.photos)
+				self.parser_photos.append(self.photos)
 				self.photos=[]
 
 		def parse_file(self,file_path):
@@ -71,17 +71,17 @@ class bug_parser:
 						else :
 							self.check_content_exist()
 					else:
-						self.check_bug_key(line)
+						self.check_parser_key(line)
 
-			if len(self.bug_des) != len(self.bug_assignee) or  len(self.bug_des)==0  or len(self.bug_assignee)==0:
-				raise  "bug description size is not match with bug assignee size"
+			if len(self.parser_des) != len(self.parser_assignee) or  len(self.parser_des)==0  or len(self.parser_assignee)==0:
+				raise  "parser description size is not match with parser assignee size"
 				# raise "test_step size %d and test data result %d len not matches" % ( len(test_step), len(test_result))
 
 if __name__ == "__main__":
 
 		# file_path=os.path.join(
-        # os.path.dirname(os.path.abspath(__file__)), 'uploads', 'bug.txt')
-		parser1=bug_parser('bug.txt')
+        # os.path.dirname(os.path.abspath(__file__)), 'uploads', 'parser.txt')
+		parser1=parser('bug.txt')
 		
 
 
