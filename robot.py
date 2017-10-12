@@ -17,6 +17,7 @@ import requests
 import json
 import cmd
 # import verifycode
+import webbrowser
 from jira_routine import jira_routine
 from parser  import parser
 from photo_merge  import photo_merge
@@ -42,6 +43,7 @@ class CarousellTestShell(cmd.Cmd):
     headers = {'Authorization': ''}
     api_key_bump = \
             'Iwn55O6N7rOWyepXck7UfcmgMlhjUxUoR8vJ2mC626emECaYp6JywZEtmiKGEm7'
+    ticket_url='https://carousell.atlassian.net/browse/'
 
     # ALL Endpoints
     login_endpoint = "/api/2.0/login/"
@@ -158,19 +160,13 @@ class CarousellTestShell(cmd.Cmd):
         print jsonstr
 
     def do_create_bug(self,args):
-        # jira_user,  jira_password , text_bug_file = args.split()
-        # routine=jira_routine(jira_user,jira_password)
-        # bug_parser=parser(text_bug_file)   
-        # bug_tickets=routine.create_bug(assignee=bug_parser.parser_assignee, \
-        #             summary=bug_parser.parser_summary, description=bug_parser.parser_des)
-        # print bug_tickets
         try:
-            jira_user,  jira_password , text_bug_file = args.split()
+            jira_user,  jira_password , project_key, text_bug_file = args.split()
             try:
                 routine=jira_routine(jira_user,jira_password)
                 try:
                     bug_parser=parser(text_bug_file)   
-                    bug_tickets=routine.create_bug(assignee=bug_parser.parser_assignee, \
+                    bug_tickets=routine.create_bug(project_key=project_key,assignee=bug_parser.parser_assignee, \
                     summary=bug_parser.parser_summary, description=bug_parser.parser_des)
                     print bug_tickets
                     try:
@@ -178,17 +174,21 @@ class CarousellTestShell(cmd.Cmd):
                             if bug_parser.parser_photos[i][0]!='NULL':
                                 photo_merge1 =photo_merge(photoNames=bug_parser.parser_photos[i])
                                 routine.add_attachment(bug_tickets[i],photo_merge1.final_photo)
+                        try:
+                            for bug in bug_tickets:
+                                webbrowser.open(self.ticket_url + bug)
+                        except:
+                            print 'unable open browser'
                     except:
                         print 'unable merege photo'
                 except:
                     print 'unanble create bug because wrong bug format'
-                
             except:
-                print 'Authorization fail, please check jira profile to see or reset on-demand password'
-            
+                print 'Authorization fail, please check jira profile to see or reset on-demand password'       
         except:
-            print 'try example: create_bug daisy.liu 27556285* bug.txt'
-         
+            print 'try example: create_bug daisy.liu 27556285* CS bug.txt' \
+               'or try example: create_bug daisy.liu 27556285* ISSUERPTS bug.txt'
+ 
 
     def do_create_story(self,args):
         try:
@@ -196,12 +196,18 @@ class CarousellTestShell(cmd.Cmd):
             try:
                 routine=jira_routine(jira_user,jira_password)
                 try:
+                    routine.get_cs_future_sprint()
                     story_parser=parser(text_story_file)   
                     story_tickets=routine.create_story(assignee=story_parser.parser_assignee, \
                     summary=story_parser.parser_summary, description=story_parser.parser_des)
                     print story_tickets
-                    routine.add_issues_to_sprint(sprint_id=routine.get_cs_active_sprint_id() \
+                    routine.add_issues_to_sprint(sprint_id=routine.future_sprint_id \
                         ,list_tickets=story_tickets)
+                    try:
+                        for story in story_tickets:
+                            webbrowser.open(self.ticket_url + story)
+                    except:
+                        print 'unable open browser'
                 except:
                     print 'unanble create ticket because wrong ticket format'              
             except:
