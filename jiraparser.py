@@ -3,7 +3,7 @@ import logging
 import os
 import photo_merge
 
-class parser:
+class jiraparser:
 		def __init__(self, file_path):
 			self.parser_des=[]
 			self.parser_summary=[]
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 		# file_path=os.path.join(
         # os.path.dirname(os.path.abspath(__file__)), 'uploads', 'parser.txt')
-		parser1=parser('bug.txt')
+		jiraparser1=jiraparser('bug.txt')
 		
 
 

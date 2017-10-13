@@ -1,12 +1,18 @@
 import os
 from setuptools import setup
 
+
+APP=['main.py']
 setup(
-    name = "Jira Basic Tool",
+	  app=APP,
+    name = "Daisy",
     author = "Daisy Liu",
     author_email = "daisy.liu@thecarousell.com",
-    description = ("An tool to create serveral bug ticket attaching multiple photos merged"),
+    description = "An tool to create bug/story ticket",
+    # options = {'py2app':OPTIONS},
+    setup_requires=['py2app'],
     install_requires=[
           'JIRA','requests','Image'
       ]
+
 )
