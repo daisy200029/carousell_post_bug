@@ -1,9 +1,8 @@
 @des
-*Platform*
-iPhone 6, iOS 9.3.1
+
 
 @summary
-this is my story
+[Integration]Create order/Put Cancel Order
 
 @assignee
 daisy.liu
