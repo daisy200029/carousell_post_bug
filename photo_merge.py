@@ -27,12 +27,13 @@ class photo_merge():
 			x_offset += im.size[0]
 		self.new_im=new_im
 
-	def check_file_exist(self):	
+	def check_file_exist(self):
 		outputfile=self.file_path+self.output
 		if (os.path.isfile(outputfile)):
 			number=1;
 			name,filetype=self.output.split('.')
-			while (os.path.isfile(self.file_path+'-'+str(number)+'.'+filetype)):
+			print name+" + "+filetype
+			while (os.path.isfile(self.file_path+name+'-'+str(number)+'.'+filetype)):
 				number=number+1
 			self.final_photo=self.file_path+name+'-'+str(number)+'.'+filetype
 			self.new_im.save(self.final_photo)
@@ -43,4 +44,4 @@ class photo_merge():
 			print "success get merged photo"+self.final_photo
 
 if __name__ == "__main__":
-	photo_merge(photoNames=['TEST1.PNG','TEST2.PNG'])
+	photo_merge(photoNames=['TEST1.PNG','TEST3.PNG'])
